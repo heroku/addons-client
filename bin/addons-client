@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require_relative '../lib/addons-client'
+include Addons::Client
+
+begin
+  CLI.run!
+rescue UserError => e
+  STDERR.puts e.message
+  exit 1
+end
+
+pre_token      = [Settings[:api_salt], Settings[:api_password]].join(':')
+hashed_pw      = Digest::SHA1.hexdigest(pre_token)
+addons_api_url = "http://heroku:#{hashed_pw}@localhost:3000"
+resource       = RestClient::Resource.new(addons_api_url)['/api/1/resources']
+addon_name, plan  = ARGV[1].split(':')
+p addon_name, plan
+
+RestClient.log = STDOUT
+case ARGV[0]
+when /list/i
+when /provision/i
+  p resource.post({
+    addon: addon_name,
+    plan:  plan,
+    consumer_id: 'api-client@localhost'
+  })
+else
+  if ARGV[0] 
+    puts "#{ARGV[0]} is not a valid command"
+  else
+    puts "must specify: provision, deprovision, plan change"
+  end
+end
