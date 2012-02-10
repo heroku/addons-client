@@ -1,0 +1,3 @@
+class Addons::Client
+
+end

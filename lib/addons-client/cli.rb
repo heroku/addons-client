@@ -1,9 +1,11 @@
 module Addons::Client::CLI
-  include Addons::Client
-
   def self.run!
     define_settings
     load_settings!
+  end
+
+  def self.run_command!
+
   end
 
   def self.define_settings
@@ -21,6 +23,6 @@ module Addons::Client::CLI
     Settings.use :commandline
     Settings.resolve!
   rescue RuntimeError => e
-    raise UserError.new(e)
+    raise Addons::UserError.new(e)
   end
 end

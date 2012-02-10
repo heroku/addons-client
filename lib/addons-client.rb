@@ -6,10 +6,9 @@ require 'digest'
 require 'configliere'
 
 module Addons
-  module Client
-    Exception = Class.new(Exception)
-    UserError = Class.new(RuntimeError)
-  end
+  Exception = Class.new(Exception)
+  UserError = Class.new(RuntimeError)
 end
 
+require 'addons-client/client'
 require 'addons-client/cli'
