@@ -1,13 +1,34 @@
 require_relative 'test_helper'
 
 class SettingsTest < Addons::Client::TestCase
-  def test_requires_api_salt_and_api_password
-    assert_raises Addons::UserError do 
-      Addons::Client::CLI.run!
-    end
+  def setup
+    super
+    stub_request(:any, /^http:\/\/heroku/)
+  end
 
-    ENV['ADDONS_API_SALT'] = 'salt'
-    ENV['ADDONS_API_PASSWORD'] = 'bacon'
-    assert_nothing_raised { Addons::Client::CLI.run! }
+  def test_works_when_options_provided
+    assert_nothing_raised { Addons::CLI.run! }
+  end
+
+  def test_hashes_password
+    password = Digest::SHA1.hexdigest('salt:bacon') 
+    addons_client! "provision memcache:5mb"
+    assert_requested :post, /heroku:#{password}/
+  end
+
+  def test_requires_api_password
+    Settings.delete :api_password
+    ENV['ADDONS_API_PASSWORD'] = nil
+    assert_raises Addons::UserError do 
+      addons_client! "provision memcache:5mb"
+    end
+  end
+
+  def test_requires_api_salt
+    Settings.delete :api_salt
+    ENV['ADDONS_API_SALT'] = nil
+    assert_raises Addons::UserError do 
+      addons_client! "provision memcache:5mb"
+    end
   end
 end

@@ -1,0 +1,39 @@
+require_relative 'test_helper'
+
+class ProvisionTest < Addons::Client::TestCase
+  def setup
+    super
+    stub_request(:any, /resources$/)
+    @client = Addons::Client.new(:username => 'test',
+                                 :password => 'pass',
+                                 :salt     => 'salt') 
+  end
+
+  def test_provisions_from_cmd_line
+    password = Digest::SHA1.hexdigest('salt:bacon')
+    addons_client! "provision memcache:5mb"
+
+    target_url = "http://heroku:#{password}@localhost:3000/api/1/resources"
+    assert_requested(:post, target_url,
+      body: { addon: 'memcache', plan: '5mb', 
+              consumer_id: 'api-client@localhost'})
+  end
+
+  def test_provisions_from_ruby
+    password = Digest::SHA1.hexdigest('salt:pass')
+    @client.provision! 'foo:plizzan'
+    target_url = "http://test:#{password}@localhost:3000/api/1/resources"
+    assert_requested(:post, target_url,
+      body: { addon: 'foo', plan: 'plizzan', 
+        consumer_id: 'api-client@localhost'})
+  end
+
+  def test_sets_consumer_id
+  end
+
+  def test_sets_scheme
+  end
+
+  def test_accepts_options
+  end
+end

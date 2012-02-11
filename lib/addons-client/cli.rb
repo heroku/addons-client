@@ -1,25 +1,39 @@
-module Addons::Client::CLI
-  def self.run!
+module Addons::CLI
+  extend self
+
+  def run!
     define_settings
     load_settings!
+    run_command!
   end
 
-  def self.run_command!
-
+  def run_command!
+    command = Settings.rest.first
+    case command 
+    when /provision/i
+      slug = Settings.rest[1]
+      raise UserError, "Must supply add-on:plan as second argument" unless slug
+      client.provision!(slug)
+    else
+      if command
+        puts "#{command} is not a valid command"
+      else
+        puts "Command must be one of: provision, deprovision, planchange"
+      end
+    end
   end
 
-  def self.define_settings
-    Settings.define :api_salt, 
-      :env_var => "ADDONS_API_SALT", 
-      :description => "Salt used for hashing login",
-      :required => true
-    Settings.define :api_password, 
-      :env_var => "ADDONS_API_PASSWORD", 
-      :description => "Addons API password", 
-      :required => true
+  def client
+    @client ||= Addons::Client.new(:username => 'heroku', 
+                                   :salt     => Settings[:api_salt], 
+                                   :password => Settings[:api_password])
   end
 
-  def self.load_settings!
+  def define_settings
+    load File.expand_path('../settings.rb', __FILE__)
+  end
+
+  def load_settings!
     Settings.use :commandline
     Settings.resolve!
   rescue RuntimeError => e
