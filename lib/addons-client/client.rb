@@ -6,14 +6,14 @@ class Addons::Client
     @consumer_id = opts.fetch :consumer_id, 'api-client@localhost'
   end
 
-  def provision!(slug)
+  def provision!(slug, opts = {})
     addon_name, plan  = slug.split(':')
     raise UserError, "No add-on name given" unless addon_name
     raise UserError, "No plan name given"   unless plan
     resource.post({
       addon: addon_name,
       plan:  plan,
-      consumer_id: "api-client@localhost"
+      consumer_id: opts.fetch(:consumer_id, "api-client@localhost")
     })
   end
 
