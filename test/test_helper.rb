@@ -1,4 +1,6 @@
 require 'test/unit'
+require 'minitest/spec'
+require 'minitest/autorun'
 Bundler.require :test
 require 'webmock/test_unit'
 require_relative '../lib/addons-client'

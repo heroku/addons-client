@@ -22,7 +22,7 @@ class SettingsTest < Addons::Client::TestCase
                                 :password => 'pass',
                                 :salt     => 'salt') 
     client.provision! 'foo:bar'
-    target_url = "http://test:#{password}@localhost:3000/api/1/resources"
+    target_url = "https://test:#{password}@localhost:3000/api/1/resources"
     assert_requested(:post, target_url)
   end
 
