@@ -29,19 +29,12 @@ client = Addons::Client.new(:username => 'test',
 
 ```
 
-### Bang Methods Raise Errors
+### API Methods Raise Errors
 ```ruby
 client.provision! 'memcache:5mb'
 client.provision! 'foo:bar', 
   :consumer_id => 'app123@heroku.com',
   :options => { :foo => 'bar', 'baz' => 'test' } 
-```
-
-### Non-bang methods store errors in the client
-```ruby
-client.provision 'foo:bar'
-client.errors?
-client.errors.each { |e| puts e }
 ```
 
 ## Command Line
