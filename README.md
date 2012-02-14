@@ -1,6 +1,10 @@
 # Addons::Client
 
-TODO: Write a gem description
+This gem is used for calls to the Add-on Platform API so that Platforms as a Service
+can make use of the add-ons ecosystem.
+
+The 3 main API operations are provisioning, deprovisiong, and changing the plan of 
+an add-on.  They are all supported via a Ruby Client and a command line interface.
 
 ## Installation
 
@@ -18,7 +22,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    ```ruby
+    client = Addons::Client.new(:username => 'test',
+                                :password => 'pass',
+                                :salt     => 'salt') 
+
+    client.provision! 'memcache:5mb'
+    ```
+
 
 ## Contributing
 
