@@ -1,18 +1,7 @@
 module Addons
   class  Client
     def initialize
-      validate_addons_api_url!
-    end
-
-    def validate_addons_api_url!
-      raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
-      begin
-        @api_url = URI.parse(ENV['ADDONS_API_URL'])
-      rescue URL::InvalidUriError
-        raise UserError, "ADDONS_API_URL is an invalid url"
-      end
-      raise UserError, "No username given" unless @api_url.user
-      raise UserError, "No password given" unless @api_url.password
+      set_and_validate_api_url!
     end
 
     def provision!(slug, opts = {})
@@ -30,6 +19,18 @@ module Addons
 
     def resource
       RestClient::Resource.new(@api_url.to_s)
+    end
+
+    protected 
+    def set_and_validate_api_url!
+      raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
+      begin
+        @api_url = URI.parse(ENV['ADDONS_API_URL'])
+      rescue URL::InvalidUriError
+        raise UserError, "ADDONS_API_URL is an invalid url"
+      end
+      raise UserError, "No username given" unless @api_url.user
+      raise UserError, "No password given" unless @api_url.password
     end
   end
 end
