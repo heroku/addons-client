@@ -45,13 +45,13 @@ client.errors.each { |e| puts e }
 ```
 
 ## Command Line
-
-    addons-client provision memcache:5mb --salt=salt --password=pw --username=uname
-
     export ADDONS_API_URL=http://localhost:3000/heroku/resources
-    addons-client provision memcache:5mb --salt=salt --password=pw --username=uname
 
+    addons-client provision memcache:5mb --salt=salt --password=pw 
+                                         --username=uname --consumer-id=app123@heroku.com 
+                                         --options.foo=bar --options.baz=true
 
+TODO: store platform creds in a file?
 
 ## Contributing
 
