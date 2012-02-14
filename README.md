@@ -39,8 +39,7 @@ client.provision! 'foo:bar',
 ## Command Line
     export ADDONS_API_URL=http://heroku:password@localhost:3000/heroku/resources
 
-    addons-client provision memcache:5mb --consumer-id=app123@heroku.com 
-                                         --options.foo=bar --options.baz=true
+    addons-client provision memcache:5mb --consumer-id=app123@heroku.com --options.foo=bar --options.baz=true
 
 ## Contributing
 
