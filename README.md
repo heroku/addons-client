@@ -22,13 +22,13 @@ Or install it yourself as:
 
 ## Usage
 
-    ```ruby
-    client = Addons::Client.new(:username => 'test',
-                                :password => 'pass',
-                                :salt     => 'salt') 
+```ruby
+client = Addons::Client.new(:username => 'test',
+                            :password => 'pass',
+                            :salt     => 'salt') 
 
-    client.provision! 'memcache:5mb'
-    ```
+client.provision! 'memcache:5mb'
+```
 
 
 ## Contributing
