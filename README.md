@@ -27,8 +27,30 @@ client = Addons::Client.new(:username => 'test',
                             :password => 'pass',
                             :salt     => 'salt') 
 
-client.provision! 'memcache:5mb'
 ```
+
+### Bang Methods Raise Errors
+```ruby
+client.provision! 'memcache:5mb'
+client.provision! 'foo:bar', 
+  :consumer_id => 'app123@heroku.com',
+  :options => { :foo => 'bar', 'baz' => 'test' } 
+```
+
+### Non-bang methods store errors in the client
+```ruby
+client.provision 'foo:bar'
+client.errors?
+client.errors.each { |e| puts e }
+```
+
+## Command Line
+
+    addons-client provision memcache:5mb --salt=salt --password=pw --username=uname
+
+    export ADDONS_API_URL=http://localhost:3000/heroku/resources
+    addons-client provision memcache:5mb --salt=salt --password=pw --username=uname
+
 
 
 ## Contributing

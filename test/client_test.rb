@@ -41,4 +41,18 @@ class SettingsTest < Addons::Client::TestCase
       addons_client! "provision memcache:5mb"
     end
   end
+
+  def test_sets_password_and_salt_from_cmd_line
+    Settings.delete :api_password
+    ENV['ADDONS_API_PASSWORD'] = nil
+    Settings.delete :api_salt
+    ENV['ADDONS_API_SALT'] = nil
+    assert_nothing_raised do
+      addons_client! "provision memcache:5mb --api_password=pass --api_salt=salt"
+    end
+  end
+
+  def test_reads_url_from_env
+
+  end
 end
