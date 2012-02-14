@@ -2,7 +2,6 @@ module Addons::CLI
   extend self
 
   def run!
-    define_settings
     load_settings!
     run_command!
   end
@@ -24,13 +23,7 @@ module Addons::CLI
   end
 
   def client
-    @client ||= Addons::Client.new(:username => 'heroku', 
-                                   :salt     => Settings[:api_salt], 
-                                   :password => Settings[:api_password])
-  end
-
-  def define_settings
-    load File.expand_path('../settings.rb', __FILE__)
+    @client ||= Addons::Client.new
   end
 
   def load_settings!

@@ -9,8 +9,6 @@ class Addons::Client::TestCase < Test::Unit::TestCase
   include RR::Adapters::TestUnit
 
   def setup
-    ENV['ADDONS_API_SALT']     = 'salt'
-    ENV['ADDONS_API_PASSWORD'] = 'bacon'
   end
 
   def teardown
