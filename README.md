@@ -23,10 +23,9 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-client = Addons::Client.new(:username => 'test',
-                            :password => 'pass',
-                            :salt     => 'salt') 
+ENV['ADDONS_API_URL']='http://heroku:password@localhost:3000/heroku/resources'
 
+client = Addons::Client.new
 ```
 
 ### API Methods Raise Errors
@@ -38,13 +37,10 @@ client.provision! 'foo:bar',
 ```
 
 ## Command Line
-    export ADDONS_API_URL=http://localhost:3000/heroku/resources
+    export ADDONS_API_URL=http://heroku:password@localhost:3000/heroku/resources
 
-    addons-client provision memcache:5mb --salt=salt --password=pw 
-                                         --username=uname --consumer-id=app123@heroku.com 
+    addons-client provision memcache:5mb --consumer-id=app123@heroku.com 
                                          --options.foo=bar --options.baz=true
-
-TODO: store platform creds in a file?
 
 ## Contributing
 
