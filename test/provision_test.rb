@@ -32,10 +32,19 @@ class ProvisionTest < Addons::Client::TestCase
         consumer_id: 'app123@heroku.com'})
   end
 
-  def test_sets_provision_options
+  def test_client_sets_provision_options
     @client.provision! 'foo:bar', 
       :consumer_id => 'app123@heroku.com',
       :options => { :foo => 'bar', 'baz' => 'test' } 
+
+    assert_requested(:post, target_url,
+      body: { addon: 'foo', plan: 'bar', 
+        consumer_id: 'app123@heroku.com',
+        options: { foo: 'bar', baz: 'test'}})
+  end
+
+  def test_cmd_line_sets_provision_options
+    addons_client! "provision foo:bar --options.foo=bar --options.baz=test --consumer_id=app123@heroku.com"
 
     assert_requested(:post, target_url,
       body: { addon: 'foo', plan: 'bar', 

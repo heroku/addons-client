@@ -13,10 +13,12 @@ class Addons::Client::TestCase < Test::Unit::TestCase
 
   def teardown
     WebMock.reset!
+    ::ARGV.replace []
+    Settings.replace Hash.new
   end
 
   def addons_client! cmd
-    stub(Settings).rest { cmd.split }
+    ::ARGV.replace cmd.split
     Addons::CLI.run!
   end
 end

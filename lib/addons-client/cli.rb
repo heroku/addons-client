@@ -12,7 +12,7 @@ module Addons::CLI
     when /provision/i
       slug = Settings.rest[1]
       raise UserError, "Must supply add-on:plan as second argument" unless slug
-      client.provision!(slug)
+      client.provision!(slug, :options => Settings[:options], :consumer_id => Settings[:consumer_id])
     else
       if command
         puts "#{command} is not a valid command"

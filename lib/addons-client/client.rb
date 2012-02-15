@@ -1,5 +1,7 @@
 module Addons
   class  Client
+    DEFAULT_CONSUMER_ID = "api-client@localhost"
+
     def initialize
       set_and_validate_api_url!
     end
@@ -11,10 +13,10 @@ module Addons
       payload = {
         addon: addon_name,
         plan:  plan,
-        consumer_id: opts.fetch(:consumer_id, "api-client@localhost")
+        consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
       }
       payload.merge! :options => opts[:options] if opts[:options]
-      resource.post payload
+      resource.post payload, :accept => :json 
     end
 
     def resource
