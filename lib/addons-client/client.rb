@@ -18,7 +18,7 @@ module Addons
       payload.merge! :options => opts[:options] if opts[:options]
       resource.post payload, :accept => :json 
     rescue RestClient::ResourceNotFound
-      raise UserError, "Add-on not found: check spelling and plan name"
+      raise UserError, "Add-on not found: check ADDONS_API_URL, addon spelling and plan name"
     end
 
     def resource
