@@ -1,7 +1,8 @@
 require_relative 'test_helper'
 
-# eating our own dogfood and keeping mocked responses
-# DRY and sharable
+# testing the canned responses with the mocks
+# means we are both testing the mock mode and
+# keeping the mocked responses in one place
 class ResponseTest < Addons::Client::TestCase
   def setup
     Addons::Client.mock!
