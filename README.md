@@ -36,7 +36,21 @@ client.provision! 'foo:bar',
   :options => { :foo => 'bar', 'baz' => 'test' } 
 ```
 
-## Command Line
+### Tests
+
+The client supports a mocked mode that sends no requests and returns canned responses.
+
+```ruby
+Addons::Client.mock!
+Addons::Client.new.provision! 'foo:bar' 
+  # => {:resource_id=>"DEADBEEF", :config=>{"FOO_URL"=>"http://foo.com"}, :message=>"great success", :provider_id=>"ABC123"} 
+
+Addons::Client.unmock!
+Addons::Client.new.provision! 'foo:bar'
+ # Addons::UserError: ADDONS_API_URL must be set
+```
+
+### Command Line
     export ADDONS_API_URL=http://heroku:password@localhost:3000/heroku/resources
 
     addons-client provision memcache:5mb --consumer-id=app123@heroku.com --options.foo=bar --options.baz=true
