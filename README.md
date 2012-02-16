@@ -23,6 +23,9 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+client = Addons::Client.new
+ # Addons::UserError: ADDONS_API_URL must be set
+
 ENV['ADDONS_API_URL']='http://heroku:password@localhost:3000/heroku/resources'
 
 client = Addons::Client.new
@@ -31,9 +34,14 @@ client = Addons::Client.new
 ### API Methods 
 ```ruby
 client.provision! 'memcache:5mb'
-client.provision! 'foo:bar', 
-  :consumer_id => 'app123@heroku.com',
+
+client.provision! 'foo:bar', :consumer_id => 'app123@heroku.com',
   :options => { :foo => 'bar', 'baz' => 'test' } 
+
+  # => {:resource_id=>"DEADBEEF", 
+  #     :config=>{"FOO_URL"=>"http://foo.com"}, 
+  #     :message=>"great success", 
+  #     :provider_id=>"ABC123"} 
 ```
 
 ### Tests
