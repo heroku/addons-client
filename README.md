@@ -28,7 +28,7 @@ ENV['ADDONS_API_URL']='http://heroku:password@localhost:3000/heroku/resources'
 client = Addons::Client.new
 ```
 
-### API Methods Raise Errors
+### API Methods 
 ```ruby
 client.provision! 'memcache:5mb'
 client.provision! 'foo:bar', 
