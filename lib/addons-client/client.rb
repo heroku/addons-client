@@ -1,18 +1,11 @@
 module Addons
   class  Client
-    DEFAULT_CONSUMER_ID = "api-client@localhost"
     extend  Mock::Methods
     include Mock::Responses
+    DEFAULT_CONSUMER_ID = "api-client@localhost"
 
     def initialize
       set_and_validate_api_url! unless self.class.mocked?
-    end
-
-    def wrap_request
-      response = yield
-      Addons::Client::Response.new(response)
-    rescue RestClient::ResourceNotFound
-      raise UserError, "Add-on not found: check ADDONS_API_URL, addon spelling and plan name"
     end
 
     def provision!(slug, opts = {})
@@ -40,6 +33,13 @@ module Addons
     end
 
     protected 
+    def wrap_request
+      response = yield
+      Addons::Client::Response.new(response)
+    rescue RestClient::ResourceNotFound
+      raise UserError, "Add-on not found: check ADDONS_API_URL, addon spelling and plan name"
+    end
+
     def set_and_validate_api_url!
       raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
       begin
