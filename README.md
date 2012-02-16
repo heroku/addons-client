@@ -43,7 +43,10 @@ The client supports a mocked mode that sends no requests and returns canned resp
 ```ruby
 Addons::Client.mock!
 Addons::Client.new.provision! 'foo:bar' 
-  # => {:resource_id=>"DEADBEEF", :config=>{"FOO_URL"=>"http://foo.com"}, :message=>"great success", :provider_id=>"ABC123"} 
+  # => {:resource_id=>"DEADBEEF", 
+        :config=>{"FOO_URL"=>"http://foo.com"}, 
+        :message=>"great success", 
+        :provider_id=>"ABC123"} 
 
 Addons::Client.unmock!
 Addons::Client.new.provision! 'foo:bar'
