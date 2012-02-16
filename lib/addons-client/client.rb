@@ -6,19 +6,26 @@ module Addons
       set_and_validate_api_url!
     end
 
-    def provision!(slug, opts = {})
-      addon_name, plan  = slug.split(':')
-      raise UserError, "No add-on name given" unless addon_name
-      raise UserError, "No plan name given"   unless plan
-      payload = {
-        addon: addon_name,
-        plan:  plan,
-        consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
-      }
-      payload.merge! :options => opts[:options] if opts[:options]
-      resource.post payload, :accept => :json 
+    def wrap_request
+      response = yield
+      Addons::Client::Response.new(response)
     rescue RestClient::ResourceNotFound
       raise UserError, "Add-on not found: check ADDONS_API_URL, addon spelling and plan name"
+    end
+
+    def provision!(slug, opts = {})
+      wrap_request do 
+        addon_name, plan  = slug.split(':')
+        raise UserError, "No add-on name given" unless addon_name
+        raise UserError, "No plan name given"   unless plan
+        payload = {
+          addon: addon_name,
+          plan:  plan,
+          consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
+        }
+        payload.merge! :options => opts[:options] if opts[:options]
+        resource.post payload, :accept => :json 
+      end
     end
 
     def resource

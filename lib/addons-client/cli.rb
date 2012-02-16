@@ -16,7 +16,7 @@ module Addons::CLI
       response = client.provision!(slug, :options => Settings[:options], 
                                          :consumer_id => Settings[:consumer_id])
       puts "Provisioned #{slug}"
-      pp JSON.parse(response)
+      pp response
     else
       if command
         puts "#{command} is not a valid command"

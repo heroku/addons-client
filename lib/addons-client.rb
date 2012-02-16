@@ -13,3 +13,4 @@ end
 
 require 'addons-client/client'
 require 'addons-client/cli'
+require 'addons-client/response'

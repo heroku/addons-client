@@ -7,4 +7,5 @@ gem "rake"
 group :test do
   gem 'rr'
   gem 'webmock'
+  gem 'ruby-debug19', :platforms => [:mri_19]
 end
