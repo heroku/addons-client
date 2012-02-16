@@ -11,6 +11,7 @@ module Addons
   UserError = Class.new(RuntimeError)
 end
 
+require 'addons-client/mock'
 require 'addons-client/client'
 require 'addons-client/cli'
 require 'addons-client/response'

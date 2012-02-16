@@ -1,9 +1,11 @@
 module Addons
   class  Client
     DEFAULT_CONSUMER_ID = "api-client@localhost"
+    extend  Mock::Methods
+    include Mock::Responses
 
     def initialize
-      set_and_validate_api_url!
+      set_and_validate_api_url! unless self.class.mocked?
     end
 
     def wrap_request
@@ -18,13 +20,18 @@ module Addons
         addon_name, plan  = slug.split(':')
         raise UserError, "No add-on name given" unless addon_name
         raise UserError, "No plan name given"   unless plan
-        payload = {
-          addon: addon_name,
-          plan:  plan,
-          consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
-        }
-        payload.merge! :options => opts[:options] if opts[:options]
-        resource.post payload, :accept => :json 
+        
+        if self.class.mocked?
+          mocked_provision(addon_name) 
+        else
+          payload = {
+            addon: addon_name,
+            plan:  plan,
+            consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
+          }
+          payload.merge! :options => opts[:options] if opts[:options]
+          resource.post payload, :accept => :json 
+        end
       end
     end
 
