@@ -1,4 +1,3 @@
-require 'pp'
 module Addons::CLI
   extend self
 
@@ -16,7 +15,7 @@ module Addons::CLI
       response = client.provision!(slug, :options => Settings[:options], 
                                          :consumer_id => Settings[:consumer_id])
       puts "Provisioned #{slug}"
-      pp response
+      puts response
     else
       if command
         puts "#{command} is not a valid command"
@@ -28,6 +27,10 @@ module Addons::CLI
 
   def client
     @client ||= Addons::Client.new
+  end
+
+  def puts(string)
+    STDOUT.puts(string)
   end
 
   def load_settings!
