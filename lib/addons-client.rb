@@ -4,6 +4,7 @@ require "addons-client/version"
 require 'rest-client'
 require 'digest'
 require 'configliere'
+require 'json'
 
 module Addons
   Exception = Class.new(Exception)

@@ -1,3 +1,4 @@
+require 'pp'
 module Addons::CLI
   extend self
 
@@ -12,7 +13,10 @@ module Addons::CLI
     when /provision/i
       slug = Settings.rest[1]
       raise UserError, "Must supply add-on:plan as second argument" unless slug
-      client.provision!(slug, :options => Settings[:options], :consumer_id => Settings[:consumer_id])
+      response = client.provision!(slug, :options => Settings[:options], 
+                                         :consumer_id => Settings[:consumer_id])
+      puts "Provisioned #{slug}"
+      pp JSON.parse(response)
     else
       if command
         puts "#{command} is not a valid command"

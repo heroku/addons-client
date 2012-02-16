@@ -17,4 +17,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'rest-client'
   gem.add_dependency 'configliere'
+  gem.add_dependency 'json'
 end
