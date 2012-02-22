@@ -45,7 +45,7 @@ module Addons
         raise UserError, "No plan name given"   unless plan
 
         if self.class.mocked?
-          mocked_plan_change(addon_name)
+          mocked_plan_change(resource_id, addon_name)
         else
           payload = {
             addon: addon_name,
