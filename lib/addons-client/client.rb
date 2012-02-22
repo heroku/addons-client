@@ -38,6 +38,26 @@ module Addons
       end
     end
 
+    def plan_change!(resource_id, slug, opts = {})
+      wrap_request do
+        addon_name, plan  = slug.split(':')
+        raise UserError, "No add-on name given" unless addon_name
+        raise UserError, "No plan name given"   unless plan
+
+        if self.class.mocked?
+          mocked_plan_change(addon_name)
+        else
+          payload = {
+            addon: addon_name,
+            plan:  plan,
+            consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
+          }
+          payload.merge! :options => opts[:options] if opts[:options]
+          resource["/#{resource_id}"].put payload, :accept => :json
+        end
+      end
+    end
+
     def resource
       RestClient::Resource.new(@api_url.to_s)
     end
