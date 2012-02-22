@@ -13,7 +13,7 @@ class PlanChangeTest < Addons::Client::TestCase
   end
 
   def test_plan_change_from_cmd_line
-    addons_client! "plan_change addons-uuid memcache:5mb"
+    addons_client! "plan-change addons-uuid memcache:5mb"
     assert_requested(:put, target_url,
       body: { addon: 'memcache', plan: '5mb',
               consumer_id: 'api-client@localhost'})
@@ -38,7 +38,7 @@ class PlanChangeTest < Addons::Client::TestCase
   end
 
   def test_cmd_line_sets_plan_change_options
-    addons_client! "plan_change addons-uuid foo:bar --options.foo=bar --options.baz=test --consumer_id=app123@heroku.com"
+    addons_client! "plan-change addons-uuid foo:bar --options.foo=bar --options.baz=test --consumer_id=app123@heroku.com"
 
     assert_requested(:put, target_url,
       body: { addon: 'foo', plan: 'bar',

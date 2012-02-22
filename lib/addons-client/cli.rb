@@ -21,7 +21,7 @@ module Addons::CLI
                                          :consumer_id => Settings[:consumer_id])
       puts "Provisioned #{slug}"
       puts response
-    when /plan_change/i
+    when /plan-change/i
       resource_id = Settings.rest[1]
       slug = Settings.rest[2]
       raise UserError, "Must supply add-on:plan as second argument" unless slug
