@@ -9,13 +9,13 @@ module Addons
     end
 
     def provision!(slug, opts = {})
-      wrap_request do 
+      wrap_request do
         addon_name, plan  = slug.split(':')
         raise UserError, "No add-on name given" unless addon_name
         raise UserError, "No plan name given"   unless plan
-        
+
         if self.class.mocked?
-          mocked_provision(addon_name) 
+          mocked_provision(addon_name)
         else
           payload = {
             addon: addon_name,
@@ -23,7 +23,17 @@ module Addons
             consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
           }
           payload.merge! :options => opts[:options] if opts[:options]
-          resource.post payload, :accept => :json 
+          resource.post payload, :accept => :json
+        end
+      end
+    end
+
+    def deprovision!(resource_id)
+      wrap_request do
+        if self.class.mocked?
+          mocked_deprovision(resource_id)
+        else
+          resource["/#{resource_id}"].delete :accept => :json
         end
       end
     end
@@ -32,7 +42,7 @@ module Addons
       RestClient::Resource.new(@api_url.to_s)
     end
 
-    protected 
+    protected
     def wrap_request
       response = yield
       Addons::Client::Response.new(response)
