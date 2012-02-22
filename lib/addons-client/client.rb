@@ -67,7 +67,7 @@ module Addons
       response = yield
       Addons::Client::Response.new(response)
     rescue RestClient::ResourceNotFound
-      raise UserError, "Add-on not found: check ADDONS_API_URL, addon spelling and plan name"
+      raise UserError, "Add-on not found: check addon spelling and plan name"
     end
 
     def set_and_validate_api_url!
