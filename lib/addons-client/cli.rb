@@ -23,11 +23,10 @@ module Addons::CLI
       puts response
     when /plan-change/i
       resource_id = Settings.rest[1]
-      slug = Settings.rest[2]
-      raise UserError, "Must supply add-on:plan as second argument" unless slug
-      response = client.plan_change!(resource_id, slug,
-        :options => Settings[:options], :consumer_id => Settings[:consumer_id])
-      puts "Plan Changed to #{slug}"
+      plan = Settings.rest[2]
+      raise UserError, "Must supply plan as second argument" unless plan
+      response = client.plan_change!(resource_id, plan) 
+      puts "Plan Changed to #{plan}"
       puts response
     else
       if command

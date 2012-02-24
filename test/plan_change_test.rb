@@ -13,39 +13,31 @@ class PlanChangeTest < Addons::Client::TestCase
   end
 
   def test_plan_change_from_cmd_line
-    addons_client! "plan-change addons-uuid memcache:5mb"
+    addons_client! "plan-change addons-uuid 5mb"
     assert_requested(:put, target_url,
-      body: { addon: 'memcache', plan: '5mb',
-              consumer_id: 'api-client@localhost'})
+      body: { plan: '5mb' })
   end
 
   def test_plan_change_from_ruby
-    @client.plan_change! 'addons-uuid', 'foo:plizzan'
+    @client.plan_change! 'addons-uuid', 'plizzan'
     assert_requested(:put, target_url,
-      body: { addon: 'foo', plan: 'plizzan',
-        consumer_id: 'api-client@localhost'})
+      body: {  plan: 'plizzan' })
   end
 
   def test_client_sets_plan_change_options
-    @client.plan_change! 'addons-uuid', 'foo:bar',
-      :consumer_id => 'app123@heroku.com',
-      :options => { :foo => 'bar', 'baz' => 'test' }
+    @client.plan_change! 'addons-uuid', 'bar'
 
     assert_requested(:put, target_url,
-      body: { addon: 'foo', plan: 'bar',
-        consumer_id: 'app123@heroku.com',
-        options: { foo: 'bar', baz: 'test'}})
+      body: { plan: 'bar' })
   end
 
   def test_cmd_line_sets_plan_change_options
-    addons_client! "plan-change addons-uuid foo:bar --options.foo=bar --options.baz=test --consumer_id=app123@heroku.com"
+    addons_client! "plan-change addons-uuid bar"
 
     assert_requested(:put, target_url,
-      body: { addon: 'foo', plan: 'bar',
-        consumer_id: 'app123@heroku.com',
-        options: { foo: 'bar', baz: 'test'}})
+      body: { plan: 'bar' })
     assert_received(Addons::CLI) do |cli|
-      cli.puts "Plan Changed to foo:bar"
+      cli.puts "Plan Changed to bar"
     end
   end
 end
