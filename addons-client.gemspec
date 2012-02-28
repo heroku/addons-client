@@ -3,9 +3,9 @@ require File.expand_path('../lib/addons-client/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Chris Continanza"]
-  gem.email         = ["christopher.continanza@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.email         = ["csquared@gmail.com"]
+  gem.description   = %q{Addons Platform API client}
+  gem.summary       = %q{Allows platfomrs to provision, deprovision, and change plans for add-on resources.}
   gem.homepage      = ""
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
