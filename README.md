@@ -2,7 +2,7 @@
 
 The addons client is a Ruby library that creates the RESTful requests that are used to interact with the Add-on Platform API.
 
-The Platform API provides 3 main functions for Add-ons: provisioning, deprovisiong, and plan change.
+The Platform API provides 3 main functions for Add-ons: provisioning, deprovisioning, and plan change.
 Historically, the heroku module "core" was responsible for sending the appropriate messages to
 add-on providers and reacting correctly according to those responses. Core will still have to react
 to api errors, but will no longer send messages to providers.
@@ -73,7 +73,7 @@ client.deprovision! 'ABC123'
 
     addons-client provision memcache:5mb --consumer-id=app123@heroku.com --options.foo=bar --options.baz=true
 
-#### Provisiong:
+#### Provisioning:
 
     addons-client provision glenntest:test 
     {"resource_id":"3bdb228d-a94e-4135-b19f-7a17a9f4f481","config":null,"message":null,"provider_id":null} 
