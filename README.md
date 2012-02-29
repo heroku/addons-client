@@ -38,6 +38,8 @@ to the add-ons app without having to fire up a console session.
     bundle exec addons-client  
     Command must be one of: provision, deprovision, planchange    
 
+Remember to use bundle exec to run the command line commands!
+
 ## Ruby Usage
 
 ```ruby
@@ -73,9 +75,9 @@ client.deprovision! 'ABC123'
 
 #### Provisiong:
 
-    bundle exec addons-client provision glenntest:test 
+    addons-client provision glenntest:test 
     {"resource_id":"3bdb228d-a94e-4135-b19f-7a17a9f4f481","config":null,"message":null,"provider_id":null} 
-    bundle exec addons-client deprovision 3bdb228d-a94e-4135-b19f-7a17a9f4f48
+    addons-client deprovision 3bdb228d-a94e-4135-b19f-7a17a9f4f48
 
 Notice the provider_id is null.
 This is because we won't send live requests until we've enabled the switch.
@@ -87,20 +89,20 @@ And also because in a later story we will want to have this toggleable on a per-
 
 ### it should create a resource
 
-    bundle exec addons-client provision foo-bar:test
+    addons-client provision foo-bar:test
     Provisioned foo-bar:test
     {"resource_id":"0dedb8f4-2921-42b8-81b9-a7df4c551140","config":{"MYADDON_URL":"http://user.yourapp.com"},"message":null,"provider_id":2}
 
 ### use the resource id to interact with the add-on
 
-    bundle exec addons-client plan_change 0dedb8f4-2921-42b8-81b9-a7df4c551140 test
+    addons-client plan_change 0dedb8f4-2921-42b8-81b9-a7df4c551140 test
 
-    bundle exec addons-client deprovision 0dedb8f4-2921-42b8-81b9-a7df4c551140
+    addons-client deprovision 0dedb8f4-2921-42b8-81b9-a7df4c551140
     Deprovisioned 0dedb8f4-2921-42b8-81b9-a7df4c551140 
 
 ### fun with options
 
-    bundle exec addons-client provision foo-bar:test --consumer_id=resource123@heroku.com --options.message='Good job'
+    addons-client provision foo-bar:test --consumer_id=resource123@heroku.com --options.message='Good job'
 
 ## Test Usage
 
