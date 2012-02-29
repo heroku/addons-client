@@ -77,21 +77,6 @@ client.deprovision! 'ABC123'
 
     addons-client provision glenntest:test 
     {"resource_id":"3bdb228d-a94e-4135-b19f-7a17a9f4f481","config":null,"message":null,"provider_id":null} 
-    addons-client deprovision 3bdb228d-a94e-4135-b19f-7a17a9f4f48
-
-Notice the provider_id is null.
-This is because we won't send live requests until we've enabled the switch.
-And also because in a later story we will want to have this toggleable on a per-request basis.  
-
-## enable api requests
-
-    heroku config:add PROVIDER_API_ENABLED=true --app addons-staging 
-
-### it should create a resource
-
-    addons-client provision foo-bar:test
-    Provisioned foo-bar:test
-    {"resource_id":"0dedb8f4-2921-42b8-81b9-a7df4c551140","config":{"MYADDON_URL":"http://user.yourapp.com"},"message":null,"provider_id":2}
 
 ### use the resource id to interact with the add-on
 
@@ -103,6 +88,20 @@ And also because in a later story we will want to have this toggleable on a per-
 ### fun with options
 
     addons-client provision foo-bar:test --consumer_id=resource123@heroku.com --options.message='Good job'
+
+
+## enabling api requests
+    Notice the provider_id is null.
+    This is because we won't send live requests until we've enabled the switch.
+    And also because in a later story we will want to have this toggleable on a per-request basis.  
+
+    heroku config:add PROVIDER_API_ENABLED=true --app addons-staging 
+
+### it should now create a resource with a provider_id
+
+    addons-client provision foo-bar:test
+    Provisioned foo-bar:test
+    {"resource_id":"0dedb8f4-2921-42b8-81b9-a7df4c551140","config":{"MYADDON_URL":"http://user.yourapp.com"},"message":null,"provider_id":2}
 
 ## Test Usage
 
