@@ -1,26 +1,44 @@
 # Addons::Client
 
-This gem is used for calls to the Add-on Platform API so that Platforms as a Service
-can make use of the add-ons ecosystem.
+The addons client is a Ruby library that creates the RESTful requests that are used to interact with the Add-on Platform API.
 
-The 3 main API operations are provisioning, deprovisiong, and changing the plan of 
-an add-on.  They are all supported via a Ruby Client and a command line interface.
+The Platform API provides 3 main functions for Add-ons: provisioning, deprovisiong, and plan change.
+Historically, the heroku module "core" was responsible for sending the appropriate messages to
+add-on providers and reacting correctly according to those responses. Core will still have to react
+to api errors, but will no longer send messages to providers.
+
+The Addons Client represents the first attempt at having a well-defined interface between a Platform and these
+add-on related API interactions. It is an implementation of the following API: https://gist.github.com/079c98529d399bb08c7a
+
+Also, we have provided a command line client (the real first consumer of the API) so we could issue API requests
+to the add-ons app without having to fire up a console session.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+### make a test directory
 
-    gem 'addons-client'
+    mkdir client-test
+    cd client-test
 
-And then execute:
+### make a Gemfile with the gem on github
 
-    $ bundle
+    echo "source :rubygems" > Gemfile
+    echo "gem 'addons-client', :git => 'git@github.com:heroku/addons-client.git'" >> Gemfile
 
-Or install it yourself as:
+### use bundler to install the Gem from github
 
-    $ gem install addons-client
+    bundle install
 
-## Usage
+### set up ENV
+
+    export ADDONS_API_URL=https://heroku:password@localhost:3000/api/1/resources
+
+### it works
+   
+    bundle exec addons-client  
+    Command must be one of: provision, deprovision, planchange    
+
+## Ruby Usage
 
 ```ruby
 client = Addons::Client.new
@@ -42,9 +60,49 @@ client.provision! 'foo:bar', :consumer_id => 'app123@heroku.com',
   #     :config=>{"FOO_URL"=>"http://foo.com"}, 
   #     :message=>"great success", 
   #     :provider_id=>"ABC123"} 
+
+client.plan_change! 'ABC123', 'new_plan'
+
+client.deprovision! 'ABC123'
 ```
 
-### Tests
+##  Command Line Usage
+    export ADDONS_API_URL=http://heroku:password@localhost:3000/heroku/resources
+
+    addons-client provision memcache:5mb --consumer-id=app123@heroku.com --options.foo=bar --options.baz=true
+
+#### Provisiong:
+
+    bundle exec addons-client provision glenntest:test 
+    {"resource_id":"3bdb228d-a94e-4135-b19f-7a17a9f4f481","config":null,"message":null,"provider_id":null} 
+    bundle exec addons-client deprovision 3bdb228d-a94e-4135-b19f-7a17a9f4f48
+
+Notice the provider_id is null.
+This is because we won't send live requests until we've enabled the switch.
+And also because in a later story we will want to have this toggleable on a per-request basis.  
+
+## enable api requests
+
+    heroku config:add PROVIDER_API_ENABLED=true --app addons-staging 
+
+### it should create a resource
+
+    bundle exec addons-client provision foo-bar:test
+    Provisioned foo-bar:test
+    {"resource_id":"0dedb8f4-2921-42b8-81b9-a7df4c551140","config":{"MYADDON_URL":"http://user.yourapp.com"},"message":null,"provider_id":2}
+
+### use the resource id to interact with the add-on
+
+    bundle exec addons-client plan_change 0dedb8f4-2921-42b8-81b9-a7df4c551140 test
+
+    bundle exec addons-client deprovision 0dedb8f4-2921-42b8-81b9-a7df4c551140
+    Deprovisioned 0dedb8f4-2921-42b8-81b9-a7df4c551140 
+
+### fun with options
+
+    bundle exec addons-client provision foo-bar:test --consumer_id=resource123@heroku.com --options.message='Good job'
+
+## Test Usage
 
 The client supports a mocked mode that sends no requests and returns canned responses.
 
@@ -60,11 +118,6 @@ Addons::Client.unmock!
 Addons::Client.new.provision! 'foo:bar'
  # Addons::UserError: ADDONS_API_URL must be set
 ```
-
-### Command Line
-    export ADDONS_API_URL=http://heroku:password@localhost:3000/heroku/resources
-
-    addons-client provision memcache:5mb --consumer-id=app123@heroku.com --options.foo=bar --options.baz=true
 
 ## Contributing
 
