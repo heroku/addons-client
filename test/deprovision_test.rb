@@ -10,6 +10,12 @@ class DeprovisionTest < Addons::Client::TestCase
 
   alias :target_url :resource_url
 
+  def test_cmd_line_requires_resource_id
+    assert_raises Addons::UserError, "Must supply resource id" do
+      addons_client! "deprovision"
+    end
+  end
+
   def test_deprovisions_from_cmd_line
     addons_client! "deprovision addons-uuid"
     assert_requested(:delete, target_url)

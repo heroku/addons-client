@@ -38,4 +38,17 @@ class PlanChangeTest < Addons::Client::TestCase
       cli.puts "Plan Changed to bar"
     end
   end
+
+  def test_cmd_line_requires_resource_id
+    assert_raises Addons::UserError, "Must supply resource id" do
+      addons_client! "provision"
+    end
+  end
+
+  def test_cmd_line_requires_plan_name
+    assert_raises Addons::UserError, "Must supply plan after resource id" do
+      addons_client! "provision ABC-123"
+    end
+  end
+
 end

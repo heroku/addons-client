@@ -11,20 +11,22 @@ module Addons::CLI
     case command
     when /deprovision/i
       resource_id = Settings.rest[1]
+      raise Addons::UserError, "Must supply resource id" unless resource_id
       response = client.deprovision!(resource_id)
       puts "Deprovisioned #{resource_id}"
       puts response
     when /provision/i
       slug = Settings.rest[1]
-      raise UserError, "Must supply add-on:plan as second argument" unless slug
+      raise Addons::UserError, "Must supply add-on:plan" unless slug
       response = client.provision!(slug, :options => Settings[:options],
                                          :consumer_id => Settings[:consumer_id])
       puts "Provisioned #{slug}"
       puts response
     when /plan-change/i
       resource_id = Settings.rest[1]
+      raise Addons::UserError, "Must supply resource id" unless resource_id
       plan = Settings.rest[2]
-      raise UserError, "Must supply plan as second argument" unless plan
+      raise Addons::UserError, "Must supply plan after resource id" unless plan
       response = client.plan_change!(resource_id, plan) 
       puts "Plan Changed to #{plan}"
       puts response

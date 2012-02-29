@@ -12,6 +12,18 @@ class ProvisionTest < Addons::Client::TestCase
     URI.join(ENV["ADDONS_API_URL"], '/api/1/resources').to_s
   end
 
+  def test_cmd_line_requires_addon_slug
+    assert_raises Addons::UserError, "Must supply addon:plan" do
+      addons_client! "provision"
+    end
+  end
+
+  def test_cmd_line_requires_plan
+    assert_raises Addons::UserError, "No plan name given" do
+      addons_client! "provision foo"
+    end
+  end
+
   def test_provisions_from_cmd_line
     addons_client! "provision memcache:5mb"
     assert_requested(:post, target_url,
