@@ -31,7 +31,7 @@ to the add-ons app without having to fire up a console session.
 
 ### set up ENV
 
-    export ADDONS_API_URL=https://heroku:password@localhost:3000/api/1/resources
+    export ADDONS_API_URL=https://heroku:password@localhost:3000
 
 ### it works
    
@@ -46,7 +46,7 @@ Remember to use bundle exec to run the command line commands!
 client = Addons::Client.new
  # Addons::UserError: ADDONS_API_URL must be set
 
-ENV['ADDONS_API_URL']='http://heroku:password@localhost:3000/heroku/resources'
+ENV['ADDONS_API_URL']='http://heroku:password@localhost:3000'
 
 client = Addons::Client.new
 ```
@@ -69,7 +69,7 @@ client.deprovision! 'ABC123'
 ```
 
 ##  Command Line Usage
-    export ADDONS_API_URL=http://heroku:password@localhost:3000/heroku/resources
+    export ADDONS_API_URL=http://heroku:password@localhost:3000
 
     addons-client provision memcache:5mb --consumer-id=app123@heroku.com --options.foo=bar --options.baz=true
 
