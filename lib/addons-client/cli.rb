@@ -9,17 +9,17 @@ module Addons::CLI
   def run_command!
     command = Settings.rest.first
     case command
+    when /deprovision/i
+      resource_id = Settings.rest[1]
+      response = client.deprovision!(resource_id)
+      puts "Deprovisioned #{resource_id}"
+      puts response
     when /provision/i
       slug = Settings.rest[1]
       raise UserError, "Must supply add-on:plan as second argument" unless slug
       response = client.provision!(slug, :options => Settings[:options],
                                          :consumer_id => Settings[:consumer_id])
       puts "Provisioned #{slug}"
-      puts response
-    when /deprovision/i
-      resource_id = Settings.rest[1]
-      response = client.deprovision!(resource_id)
-      puts "Deprovisioned #{resource_id}"
       puts response
     when /plan-change/i
       resource_id = Settings.rest[1]
