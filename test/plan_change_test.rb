@@ -8,9 +8,7 @@ class PlanChangeTest < Addons::Client::TestCase
     @client = Addons::Client.new
   end
 
-  def target_url
-    ENV["ADDONS_API_URL"] + '/addons-uuid'
-  end
+  alias :target_url :resource_url
 
   def test_plan_change_from_cmd_line
     addons_client! "plan-change addons-uuid 5mb"

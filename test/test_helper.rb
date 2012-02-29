@@ -9,6 +9,10 @@ class Addons::Client::TestCase < Test::Unit::TestCase
   def setup
   end
 
+  def resource_url
+    URI.join(ENV["ADDONS_API_URL"], '/api/1/resources/', 'addons-uuid').to_s
+  end
+
   def teardown
     WebMock.reset!
     ::ARGV.replace []

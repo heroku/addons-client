@@ -66,8 +66,8 @@ module Addons
     def set_and_validate_api_url!
       raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
       begin
-        @api_url = URI.parse(ENV['ADDONS_API_URL'])
-      rescue URL::InvalidUriError
+        @api_url = URI.join(ENV['ADDONS_API_URL'], '/api/1/resources')
+      rescue URI::InvalidURIError
         raise UserError, "ADDONS_API_URL is an invalid url"
       end
       raise UserError, "No username given" unless @api_url.user

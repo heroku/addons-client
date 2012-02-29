@@ -2,14 +2,14 @@ require_relative 'test_helper'
 
 class ProvisionTest < Addons::Client::TestCase
   def setup
-    ENV["ADDONS_API_URL"] = 'https://foo:bar@heroku.com/api/1/resources'
+    ENV["ADDONS_API_URL"] = 'https://foo:bar@heroku.com'
     stub_request(:any, target_url)
     stub(Addons::CLI).puts
     @client = Addons::Client.new
   end
 
   def target_url
-    ENV["ADDONS_API_URL"]
+    URI.join(ENV["ADDONS_API_URL"], '/api/1/resources').to_s
   end
 
   def test_provisions_from_cmd_line
