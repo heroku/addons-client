@@ -5,8 +5,7 @@ module Addons
     DEFAULT_CONSUMER_ID = "api-client@localhost"
 
     def self.api_url
-      set_and_validate_api_url!
-      @api_url
+      @api_url = validate_api_url!
     end
 
     def self.provision!(slug, opts = {})
@@ -64,15 +63,17 @@ module Addons
       raise UserError, "Add-on not found: check addon spelling and plan name"
     end
 
-    def self.set_and_validate_api_url!
+    def self.validate_api_url!
+      api_url = nil 
       raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
       begin
-        @api_url = URI.join(ENV['ADDONS_API_URL'], '/api/1/resources')
+        api_url = URI.join(ENV['ADDONS_API_URL'], '/api/1/resources')
       rescue URI::InvalidURIError
         raise UserError, "ADDONS_API_URL is an invalid url"
       end
-      raise UserError, "No username given" unless @api_url.user
-      raise UserError, "No password given" unless @api_url.password
+      raise UserError, "No username given" unless api_url.user
+      raise UserError, "No password given" unless api_url.password
+      api_url
     end
   end
 end
