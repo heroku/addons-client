@@ -5,7 +5,6 @@ class DeprovisionTest < Addons::Client::TestCase
     ENV["ADDONS_API_URL"] = 'https://foo:bar@heroku.com'
     stub_request(:any, target_url)
     stub(Addons::CLI).puts
-    @client = Addons::Client.new
   end
 
   alias :target_url :resource_url
@@ -22,7 +21,7 @@ class DeprovisionTest < Addons::Client::TestCase
   end
 
   def test_deprovisions_from_ruby
-    @client.deprovision! "addons-uuid"
+    Addons::Client.deprovision! "addons-uuid"
     assert_requested(:delete, target_url)
   end
 end

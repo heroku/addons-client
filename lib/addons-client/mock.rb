@@ -16,6 +16,7 @@ module Addons
       end
 
       module Responses
+        private
         def mocked_provision(name)
           {
             resource_id: "DEADBEEF",

@@ -27,7 +27,7 @@ module Addons::CLI
       raise Addons::UserError, "Must supply resource id" unless resource_id
       plan = Settings.rest[2]
       raise Addons::UserError, "Must supply plan after resource id" unless plan
-      response = client.plan_change!(resource_id, plan) 
+      response = client.plan_change!(resource_id, plan)
       puts "Plan Changed to #{plan}"
       puts response
     else
@@ -40,7 +40,7 @@ module Addons::CLI
   end
 
   def client
-    @client ||= Addons::Client.new
+    @client ||= Addons::Client
   end
 
   def puts(string)

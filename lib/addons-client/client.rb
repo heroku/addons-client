@@ -1,20 +1,21 @@
 module Addons
   class  Client
-    extend  Mock::Methods
-    include Mock::Responses
+    extend Mock::Methods
+    extend Mock::Responses
     DEFAULT_CONSUMER_ID = "api-client@localhost"
 
-    def initialize
-      set_and_validate_api_url! unless self.class.mocked?
+    def self.api_url
+      set_and_validate_api_url!
+      @api_url
     end
 
-    def provision!(slug, opts = {})
+    def self.provision!(slug, opts = {})
       wrap_request do
         addon_name, plan  = slug.split(':')
         raise UserError, "No add-on name given" unless addon_name
         raise UserError, "No plan name given"   unless plan
 
-        if self.class.mocked?
+        if mocked?
           mocked_provision(addon_name)
         else
           payload = {
@@ -28,9 +29,9 @@ module Addons
       end
     end
 
-    def deprovision!(resource_id)
+    def self.deprovision!(resource_id)
       wrap_request do
-        if self.class.mocked?
+        if mocked?
           mocked_deprovision(resource_id)
         else
           resource["/#{resource_id}"].delete :accept => :json
@@ -38,9 +39,9 @@ module Addons
       end
     end
 
-    def plan_change!(resource_id, plan)
+    def self.plan_change!(resource_id, plan)
       wrap_request do
-        if self.class.mocked?
+        if mocked?
           mocked_plan_change(resource_id, addon_name)
         else
           payload = {
@@ -51,19 +52,19 @@ module Addons
       end
     end
 
-    def resource
-      RestClient::Resource.new(@api_url.to_s)
+    def self.resource
+      RestClient::Resource.new(api_url.to_s)
     end
 
     protected
-    def wrap_request
+    def self.wrap_request
       response = yield
       Addons::Client::Response.new(response)
     rescue RestClient::ResourceNotFound
       raise UserError, "Add-on not found: check addon spelling and plan name"
     end
 
-    def set_and_validate_api_url!
+    def self.set_and_validate_api_url!
       raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
       begin
         @api_url = URI.join(ENV['ADDONS_API_URL'], '/api/1/resources')

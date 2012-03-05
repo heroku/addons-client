@@ -6,7 +6,6 @@ require_relative 'test_helper'
 class ResponseTest < Addons::Client::TestCase
   def setup
     Addons::Client.mock!
-    @client = Addons::Client.new
   end
 
   def teardown
@@ -14,7 +13,7 @@ class ResponseTest < Addons::Client::TestCase
   end
 
   def test_response_object_wraps_provision_data
-    response = @client.provision! 'memcache:5mb'
+    response = Addons::Client.provision! 'memcache:5mb'
 
     assert_equal 'DEADBEEF', response.resource_id
     assert_equal 'http://foo.com', response.config['MEMCACHE_URL']
