@@ -42,7 +42,7 @@ module Addons
     def self.plan_change!(resource_id, plan)
       wrap_request do
         if mocked?
-          mocked_plan_change(resource_id, addon_name)
+          mocked_plan_change(resource_id, plan)
         else
           payload = {
             plan:  plan,

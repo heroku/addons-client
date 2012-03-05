@@ -30,10 +30,10 @@ module Addons
           {}
         end
 
-        def mocked_plan_change(resource_id, name)
+        def mocked_plan_change(resource_id, plan)
           {
             resource_id: resource_id,
-            config: {"#{name.upcase}_URL" => 'http://foo.com'},
+            config: {"#{plan.upcase}_URL" => 'http://foo.com'},
             message: "great success",
             provider_id: 'ABC123'
           }
