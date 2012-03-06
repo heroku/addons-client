@@ -19,10 +19,10 @@ module Addons
         private
         def mocked_provision(name)
           {
-            resource_id: "DEADBEEF",
-            config: {"#{name.upcase}_URL" => 'http://foo.com'},
-            message: "great success",
-            provider_id: 'ABC123'
+            'resource_id' => "DEADBEEF",
+            'config' => {"#{name.upcase}_URL" => 'http://foo.com'},
+            'message' => "great success",
+            'provider_id' => 'ABC123'
           }
         end
 
@@ -32,10 +32,10 @@ module Addons
 
         def mocked_plan_change(resource_id, plan)
           {
-            resource_id: resource_id,
-            config: {"#{plan.upcase}_URL" => 'http://foo.com'},
-            message: "great success",
-            provider_id: 'ABC123'
+            'resource_id' => resource_id,
+            'config' => {"#{plan.upcase}_URL" => 'http://foo.com'},
+            'message' => "great success",
+            'provider_id' => 'ABC123'
           }
         end
       end
