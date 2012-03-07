@@ -3,7 +3,7 @@ require_relative 'test_helper'
 class DeprovisionTest < Addons::Client::TestCase
   def setup
     ENV["ADDONS_API_URL"] = 'https://foo:bar@heroku.com'
-    stub_request(:any, target_url)
+    stub_request(:any, target_url).to_return :body => " "
     stub(Addons::CLI).puts
   end
 

@@ -2,12 +2,11 @@ module Addons
   class Client
     class Response
       def initialize(response)
-        @data = if response.empty?
-                  {}
-                elsif response.is_a? Hash
+        @data = case response
+                when String
+                  response.strip.empty? ? {} : JSON.parse(response)
+                when Hash
                   response
-                else
-                  JSON.parse(response)
                 end
         @data
       end
