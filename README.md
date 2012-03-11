@@ -1,5 +1,7 @@
 # Addons::Client
 
+## codename: Kaikei
+
 The addons client is a Ruby library that creates the RESTful requests that are used to interact with the Add-on Platform API.
 
 The Platform API provides 3 main functions for Add-ons: provisioning, deprovisioning, and plan change.
