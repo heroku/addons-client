@@ -26,8 +26,7 @@ class Addons::Client::TestCase < Test::Unit::TestCase
     Addons::CLI.run!
   end
 
-  def run(*args)
-    return if @method_name == :default_test
-    super   
+  # for ruby 1.8.7 Test::Unit compatibility
+  def default_test
   end
 end
