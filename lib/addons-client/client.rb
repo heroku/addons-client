@@ -18,9 +18,9 @@ module Addons
           mocked_provision(addon_name)
         else
           payload = {
-            addon: addon_name,
-            plan:  plan,
-            consumer_id: opts[:consumer_id] || DEFAULT_CONSUMER_ID
+            :addon => addon_name,
+            :plan  => plan,
+            :consumer_id => opts[:consumer_id] || DEFAULT_CONSUMER_ID
           }
           payload.merge! :options => opts[:options] if opts[:options]
           resource.post payload, :accept => :json
@@ -44,7 +44,7 @@ module Addons
           mocked_plan_change(resource_id, plan)
         else
           payload = {
-            plan:  plan,
+            :plan => plan,
           }
           resource["/#{resource_id}"].put payload, :accept => :json
         end
@@ -64,7 +64,7 @@ module Addons
     end
 
     def self.validate_api_url!
-      api_url = nil 
+      api_url = nil
       raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
       begin
         api_url = URI.join(ENV['ADDONS_API_URL'], '/api/1/resources')

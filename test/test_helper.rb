@@ -1,12 +1,13 @@
 require 'test/unit'
 Bundler.require :test
 require 'webmock/test_unit'
-require_relative '../lib/addons-client'
+require "#{File.dirname(__FILE__)}/../lib/addons-client"
 
 class Addons::Client::TestCase < Test::Unit::TestCase
   include RR::Adapters::TestUnit
 
   def setup
+    super
   end
 
   def resource_url
@@ -14,6 +15,7 @@ class Addons::Client::TestCase < Test::Unit::TestCase
   end
 
   def teardown
+    super
     WebMock.reset!
     ::ARGV.replace []
     Settings.replace Hash.new

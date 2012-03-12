@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require "#{File.dirname(__FILE__)}/test_helper"
 
 # testing the canned responses with the mocks
 # means we are both testing the mock mode and

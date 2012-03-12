@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require "#{File.dirname(__FILE__)}/test_helper"
 
 class PlanChangeTest < Addons::Client::TestCase
   def setup
@@ -12,27 +12,27 @@ class PlanChangeTest < Addons::Client::TestCase
   def test_plan_change_from_cmd_line
     addons_client! "plan-change addons-uuid 5mb"
     assert_requested(:put, target_url,
-      body: { plan: '5mb' })
+      :body => { :plan => '5mb' })
   end
 
   def test_plan_change_from_ruby
     Addons::Client.plan_change! 'addons-uuid', 'plizzan'
     assert_requested(:put, target_url,
-      body: {  plan: 'plizzan' })
+      :body => { :plan => 'plizzan' })
   end
 
   def test_client_sets_plan_change_options
     Addons::Client.plan_change! 'addons-uuid', 'bar'
 
     assert_requested(:put, target_url,
-      body: { plan: 'bar' })
+      :body => { :plan => 'bar' })
   end
 
   def test_cmd_line_sets_plan_change_options
     addons_client! "plan-change addons-uuid bar"
 
     assert_requested(:put, target_url,
-      body: { plan: 'bar' })
+      :body => { :plan => 'bar' })
     assert_received(Addons::CLI) do |cli|
       cli.puts "Plan Changed to bar"
     end

@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require "#{File.dirname(__FILE__)}/test_helper"
 
 class ProvisionTest < Addons::Client::TestCase
   def setup
@@ -26,22 +26,22 @@ class ProvisionTest < Addons::Client::TestCase
   def test_provisions_from_cmd_line
     addons_client! "provision memcache:5mb"
     assert_requested(:post, target_url,
-      body: { addon: 'memcache', plan: '5mb',
-              consumer_id: 'api-client@localhost'})
+      :body => { :addon => 'memcache', :plan => '5mb',
+              :consumer_id => 'api-client@localhost'})
   end
 
   def test_provisions_from_ruby
     Addons::Client.provision! 'foo:plizzan'
     assert_requested(:post, target_url,
-      body: { addon: 'foo', plan: 'plizzan',
-        consumer_id: 'api-client@localhost'})
+      :body => { :addon => 'foo', :plan => 'plizzan',
+        :consumer_id => 'api-client@localhost'})
   end
 
   def test_sets_consumer_id
     Addons::Client.provision! 'foo:bar', :consumer_id => 'app123@heroku.com'
     assert_requested(:post, target_url,
-      body: { addon: 'foo', plan: 'bar',
-        consumer_id: 'app123@heroku.com'})
+      :body => { :addon => 'foo', :plan => 'bar',
+        :consumer_id => 'app123@heroku.com'})
   end
 
   def test_client_sets_provision_options
@@ -50,18 +50,18 @@ class ProvisionTest < Addons::Client::TestCase
       :options => { :foo => 'bar', 'baz' => 'test' }
 
     assert_requested(:post, target_url,
-      body: { addon: 'foo', plan: 'bar',
-        consumer_id: 'app123@heroku.com',
-        options: { foo: 'bar', baz: 'test'}})
+      :body => { :addon => 'foo', :plan => 'bar',
+        :consumer_id => 'app123@heroku.com',
+        :options => { :foo => 'bar', :baz => 'test'}})
   end
 
   def test_cmd_line_sets_provision_options
     addons_client! "provision foo:bar --options.foo=bar --options.baz=test --consumer_id=app123@heroku.com"
 
     assert_requested(:post, target_url,
-      body: { addon: 'foo', plan: 'bar',
-        consumer_id: 'app123@heroku.com',
-        options: { foo: 'bar', baz: 'test'}})
+      :body => { :addon => 'foo', :plan => 'bar',
+        :consumer_id => 'app123@heroku.com',
+        :options => { :foo => 'bar', :baz => 'test'}})
     assert_received(Addons::CLI) do |cli|
       cli.puts "Provisioned foo:bar"
     end
