@@ -25,4 +25,8 @@ class Addons::Client::TestCase < Test::Unit::TestCase
     ::ARGV.replace cmd.split
     Addons::CLI.run!
   end
+
+  private
+  def test_unit_187_silencer
+  end
 end
