@@ -1,5 +1,7 @@
 # Addons::Client
 
+[![Build Status](https://secure.travis-ci.org/heroku/addons-client.png?branch=master)](http://travis-ci.org/heroku/addons-client)
+
 ## codename: Kaikei
 
 The addons client is a Ruby library that creates the RESTful requests that are used to interact with the Add-on Platform API.
