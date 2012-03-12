@@ -26,7 +26,8 @@ class Addons::Client::TestCase < Test::Unit::TestCase
     Addons::CLI.run!
   end
 
-  private
-  def test_unit_187_silencer
+  def run(*args)
+    return if @method_name == :default_test
+    super   
   end
 end
