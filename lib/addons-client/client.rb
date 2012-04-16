@@ -23,8 +23,14 @@ module Addons
             :consumer_id => opts[:consumer_id] || DEFAULT_CONSUMER_ID
           }
           payload.merge! :options => opts[:options] if opts[:options]
-          payload.merge! :start_at => opts[:start_at] if opts[:start_at]
-          payload.merge! :end_at => opts[:end_at] if opts[:end_at]
+          if start_at = opts[:start_at]
+            start_at.utc
+            payload.merge! :start_at => start_at.to_s
+          end
+          if end_at = opts[:end_at]
+            end_at.utc
+            payload.merge! :end_at => end_at.to_s
+          end
           resource.post payload, :accept => :json
         end
       end
