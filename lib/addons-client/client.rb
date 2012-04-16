@@ -23,6 +23,7 @@ module Addons
             :consumer_id => opts[:consumer_id] || DEFAULT_CONSUMER_ID
           }
           payload.merge! :options => opts[:options] if opts[:options]
+          payload.merge! :rate => opts[:rate] if opts[:rate]
           if start_at = opts[:start_at]
             start_at.utc
             payload.merge! :start_at => start_at.to_s
