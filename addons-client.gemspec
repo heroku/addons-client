@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/addons-client/version', __FILE__)
+$LOAD_PATH.unshift File.dirname(File.expand_path('.', __FILE__)) + '/lib'
+require "addons-client/version"
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Chris Continanza"]
