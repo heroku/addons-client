@@ -3,8 +3,8 @@ $LOAD_PATH.unshift File.dirname(File.expand_path('.', __FILE__)) + '/lib'
 require "addons-client/version"
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Chris Continanza"]
-  gem.email         = ["csquared@gmail.com"]
+  gem.authors       = ["Chris Continanza", "Glenn Gillen"]
+  gem.email         = ["csquared@gmail.com", "me@glenngillen.com"]
   gem.description   = %q{Addons Platform API client}
   gem.summary       = %q{Allows platfomrs to provision, deprovision, and change plans for add-on resources.}
   gem.homepage      = ""

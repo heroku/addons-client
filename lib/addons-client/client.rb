@@ -33,6 +33,10 @@ module Addons
             end_at.utc
             payload.merge! :end_at => end_at.to_s
           end
+          if config = opts[:config]
+            config = config.to_json unless config.is_a? String
+            payload.merge! :config => config
+          end
           resource.post payload, :accept => :json
         end
       end
