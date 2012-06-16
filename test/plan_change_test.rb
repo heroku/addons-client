@@ -40,13 +40,13 @@ class PlanChangeTest < Addons::Client::TestCase
 
   def test_cmd_line_requires_resource_id
     assert_raises Addons::UserError, "Must supply resource id" do
-      addons_client! "provision"
+      addons_client! "plan-change"
     end
   end
 
   def test_cmd_line_requires_plan_name
     assert_raises Addons::UserError, "Must supply plan after resource id" do
-      addons_client! "provision ABC-123"
+      addons_client! "plan-change ABC-123"
     end
   end
 

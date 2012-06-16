@@ -12,16 +12,15 @@ module Addons
       wrap_request do
         addon_name, plan  = slug.split(':')
         raise UserError, "No add-on name given" unless addon_name
-        raise UserError, "No plan name given"   unless plan
 
         if mocked?
           mocked_provision(addon_name)
         else
           payload = {
             :addon => addon_name,
-            :plan  => plan,
             :consumer_id => opts[:consumer_id] || DEFAULT_CONSUMER_ID
           }
+          payload.merge! :plan => plan if plan
           payload.merge! :options => opts[:options] if opts[:options]
           payload.merge! :rate => opts[:rate] if opts[:rate]
           payload.merge! :addons_id => opts[:addons_id] if opts[:addons_id]

@@ -17,10 +17,11 @@ class ProvisionTest < Addons::Client::TestCase
     end
   end
 
-  def test_cmd_line_requires_plan
-    assert_raises Addons::UserError, "No plan name given" do
-      addons_client! "provision foo"
-    end
+  def test_cmd_line_doesnt_require_plan
+    addons_client! "provision foo"
+    assert_requested(:post, target_url,
+      :body => { :addon => 'foo',
+        :consumer_id => 'api-client@localhost'})
   end
 
   def test_provisions_from_cmd_line
