@@ -14,7 +14,11 @@ module Addons
           mocked_list(search)
         else
           payload = { :accept => :json }
-          payload[:params] = { :search => search } unless search.nil? || search == ""
+          if search.is_a? String
+            payload[:params] = { :search => search } unless search == ""
+          elsif !search.nil?
+            payload[:params] = search
+          end
           resource["/addons"].get payload
         end
       end
