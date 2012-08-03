@@ -8,7 +8,20 @@ module Addons
       @api_url = validate_api_url!
     end
 
+    def self.list(search = nil)
+      wrap_request do
+        if mocked?
+          mocked_list(params)
+        else
+          payload = { :accept => :json }
+          payload[:params] = { :search => search } unless search.nil? || search == ""
+          resource["/addons"].get payload
+        end
+      end
+    end
+
     def self.provision!(slug, opts = {})
+      validate_authenticated_api_url!
       wrap_request do
         addon_name, plan  = slug.split(':')
         raise UserError, "No add-on name given" unless addon_name
@@ -36,22 +49,24 @@ module Addons
             config = config.to_json unless config.is_a? String
             payload.merge! :config => config
           end
-          resource.post payload, :accept => :json
+          resource["/resources"].post payload, :accept => :json
         end
       end
     end
 
     def self.deprovision!(resource_id)
+      validate_authenticated_api_url!
       wrap_request do
         if mocked?
           mocked_deprovision(resource_id)
         else
-          resource["/#{resource_id}"].delete :accept => :json
+          resource["/resources/#{resource_id}"].delete :accept => :json
         end
       end
     end
 
     def self.plan_change!(resource_id, plan)
+      validate_authenticated_api_url!
       wrap_request do
         if mocked?
           mocked_plan_change(resource_id, plan)
@@ -59,7 +74,7 @@ module Addons
           payload = {
             :plan => plan,
           }
-          resource["/#{resource_id}"].put payload, :accept => :json
+          resource["/resources/#{resource_id}"].put payload, :accept => :json
         end
       end
     end
@@ -76,16 +91,19 @@ module Addons
       raise UserError, "Add-on not found: check addon spelling and plan name"
     end
 
+    def self.validate_authenticated_api_url!
+      raise UserError, "No username given" unless api_url.user
+      raise UserError, "No password given" unless api_url.password
+    end
+
     def self.validate_api_url!
       api_url = nil
       raise UserError, "ADDONS_API_URL must be set" unless ENV['ADDONS_API_URL']
       begin
-        api_url = URI.join(ENV['ADDONS_API_URL'], '/api/1/resources')
+        api_url = URI.join(ENV['ADDONS_API_URL'], '/api/1')
       rescue URI::InvalidURIError
         raise UserError, "ADDONS_API_URL is an invalid url"
       end
-      raise UserError, "No username given" unless api_url.user
-      raise UserError, "No password given" unless api_url.password
       api_url
     end
   end

@@ -1,3 +1,4 @@
+require 'bigdecimal'
 module Addons::CLI
   extend self
 
@@ -9,6 +10,11 @@ module Addons::CLI
   def run_command!
     command = Settings.rest.first
     case command
+    when /list/i
+      response = client.list(Settings.rest[1..-1].join(" "))
+      response.data.each do |addon_plan|
+        puts "#{addon_plan["name"]} $%0.2f/#{addon_plan["price_unit"]}" % (BigDecimal.new(addon_plan["price_cents"].to_s) / 100)
+      end
     when /deprovision/i
       resource_id = Settings.rest[1]
       raise Addons::UserError, "Must supply resource id" unless resource_id

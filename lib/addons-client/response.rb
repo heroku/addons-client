@@ -15,6 +15,10 @@ module Addons
         @data.to_s
       end
 
+      def data
+        @data
+      end
+
       def method_missing(name, *args, &blk)
         if @data.keys.include? name
           @data[name]
@@ -22,7 +26,7 @@ module Addons
           @data[name.to_s]
         else
           super
-        end 
+        end
       end
     end
   end
