@@ -17,6 +17,12 @@ module Addons
 
       module Responses
         private
+        def mocked_list(search = nil)
+          [{"id" => "https://addons.heroku.com/addons/cloudcounter:basic","url" => "https://addons.heroku.com/addons/cloudcounter:basic","name" => "cloudcounter:basic","description" => "The basic counter of clouds","beta" => false,"state" => "public","price_cents" => 0,"price_unit" => "month"},
+           {"id" => "https://addons.heroku.com/addons/cloudcounter:pro","url" => "https://addons.heroku.com/addons/cloudcounter:pro","name" => "cloudcounter:pro","description" => "The counter of clouds for professionals","beta" => false,"state" => "public","price_cents" => 1500,"price_unit" => "month"}].
+          to_json
+        end
+
         def mocked_provision(name)
           {
             'resource_id' => "DEADBEEF",
