@@ -27,6 +27,10 @@ module Addons
         data.each(&blk)
       end
 
+      def inject(hash, &blk)
+        data.inject(hash,&blk)
+      end
+
       def method_missing(name, *args, &blk)
         if @data.keys.include? name
           @data[name]
