@@ -11,12 +11,20 @@ module Addons
         @data
       end
 
-      def to_s
-        @data.to_s
-      end
-
       def data
         @data
+      end
+
+      def to_s
+        data.to_s
+      end
+
+      def to_a
+        [*data]
+      end
+
+      def each(&blk)
+        data.each(&blk)
       end
 
       def method_missing(name, *args, &blk)
