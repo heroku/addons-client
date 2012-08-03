@@ -11,7 +11,7 @@ module Addons
     def self.list(search = nil)
       wrap_request do
         if mocked?
-          mocked_list(params)
+          mocked_list(search)
         else
           payload = { :accept => :json }
           payload[:params] = { :search => search } unless search.nil? || search == ""
